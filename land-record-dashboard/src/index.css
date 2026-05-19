@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+  background: white;
+  color: black;
+}
+
+/* ── OCR scanning animation ── */
+@keyframes ocr-scan {
+  0%   { top: 0; }
+  100% { top: calc(100% - 3px); }
+}
+
+@keyframes ocr-pulse {
+  0%   { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+.ocr-scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: white;
+  box-shadow:
+    0 -16px 32px 16px rgba(255, 255, 255, 0.2),
+    0  16px 32px 16px rgba(255, 255, 255, 0.2),
+    0   0    6px  3px rgba(255, 255, 255, 0.95);
+  animation: ocr-scan 1.6s ease-in-out infinite alternate;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ocr-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  animation: ocr-pulse 0.8s ease-in-out infinite alternate;
+}
+
+/* ── Thin scrollbar ── */
+* {
+  scrollbar-width: thin;                     /* Firefox */
+  scrollbar-color: #d1d5db transparent;      /* Firefox */
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* ── Print styles ── */
+@media print {
+  /* Hide everything except the form */
+  body * {
+    visibility: hidden;
+  }
+
+  #form8-print-area,
+  #form8-print-area * {
+    visibility: visible;
+  }
+
+  #form8-print-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #fff !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* Remove the grey wrapper shadow on print */
+  #form8-print-area > div {
+    box-shadow: none !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  /* Part II starts on a new page */
+  #form8-page2 {
+    page-break-before: always;
+  }
+
+  /* Hide screen-only elements */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Remove highlight and show just the value on print */
+  input, textarea {
+    background: transparent !important;
+    -webkit-print-color-adjust: exact;
+    border: none !important;
+    border-bottom: 1px dotted #555 !important;
+  }
+}
