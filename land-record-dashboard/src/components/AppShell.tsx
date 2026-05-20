@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
-import { House, LayoutDashboard, ScanLine, FilePen } from "lucide-react";
+import { House, LayoutDashboard, ScanLine, FilePen, Camera, Map } from "lucide-react";
+import logoUrl from "../assets/image.png";
 
 interface AppShellProps {
   children: ReactNode;
@@ -11,20 +12,25 @@ export function AppShell({ children, currentView, onNavigate }: AppShellProps) {
   const navItems = [
     { id: "home",      label: "Home",            Icon: House           },
     { id: "dashboard", label: "Dashboard",        Icon: LayoutDashboard },
+    { id: "camera",    label: "Camera Capture",   Icon: Camera          },
     { id: "upload",    label: "Upload + OCR",     Icon: ScanLine        },
     { id: "manual",    label: "Manual Template",  Icon: FilePen         },
+    { id: "map-view",  label: "Map View",         Icon: Map             },
   ];
 
   return (
     <div className="h-screen flex flex-col bg-white text-black">
       {/* Header */}
-      <div className="shrink-0 border-b border-gray-200 px-6 py-4 bg-white">
-        <h1 className="text-xl font-semibold tracking-tight">
-          Certificate of Occupancy Records
-        </h1>
-        <p className="text-sm text-gray-500">
-          Demo land-record intake dashboard for Form 8 digitization.
-        </p>
+      <div className="shrink-0 border-b border-gray-200 px-6 py-3 bg-white flex items-center gap-4">
+        <img src={logoUrl} alt="Ministry of Lands seal" style={{ height: 47, width: 47, objectFit: "contain", flexShrink: 0 }} />
+        <div>
+          <h1 className="text-xl font-semibold tracking-tight leading-tight">
+            Certificate of Occupancy Records
+          </h1>
+          <p className="text-xs text-gray-500 mt-0.5">
+            Ministry of Lands, Regional Government and Religious Affairs · Republic of The Gambia
+          </p>
+        </div>
       </div>
 
       <div className="flex flex-1 overflow-hidden">

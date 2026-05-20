@@ -1,5 +1,10 @@
 export type RecordSource = "ocr_upload" | "manual_entry";
 
+export interface GeoJsonPolygon {
+  type: "Polygon";
+  coordinates: number[][][];
+}
+
 export type ReviewStatus =
   | "ocr_extracted_needs_review"
   | "confirmed"
@@ -52,10 +57,11 @@ export interface CertificateRecord {
 
   fields: CertificateFields;
 
+  boundary?: GeoJsonPolygon;
+
   rawOcrText?: string;
   uploadedFileName?: string;
   uploadedFileType?: string;
-  uploadedFileDataUrl?: string;
 
   createdAt: string;
   updatedAt: string;

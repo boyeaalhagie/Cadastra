@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
+import { Toaster } from "sonner";
 import { AppShell } from "./components/AppShell";
 import { HomePage } from "./pages/HomePage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { UploadOcrPage } from "./pages/UploadOcrPage";
+import { CameraCapturePage } from "./pages/CameraCapturePage";
+import { MapViewPage } from "./pages/MapViewPage";
 import { ManualEntryPage } from "./pages/ManualEntryPage";
 import { RecordDetailPage } from "./pages/RecordDetailPage";
+import { PhoneCameraPage } from "./pages/PhoneCameraPage";
 import type { CertificateRecord } from "./types/certificate";
 import { getRecords } from "./services/recordStorage";
 
-type View = "home" | "dashboard" | "upload" | "manual" | "detail";
+type View = "home" | "dashboard" | "map-view" | "upload" | "camera" | "manual" | "detail";
+
+// If the URL contains ?phone=1, render the phone camera interface (no HTTPS or PeerJS needed)
+const phonecamId = ["camera", "gallery"].includes(
+  new URLSearchParams(window.location.search).get("phone") ?? ""
+) ? true : null;
 
 function App() {
   const [view, setView] = useState<View>("home");
@@ -35,7 +44,13 @@ function App() {
 
   const selectedRecord = records.find((r) => r.id === selectedRecordId);
 
+  // Phone camera mode — full-screen, no AppShell
+  if (phonecamId) return <PhoneCameraPage />;
+
+
   return (
+    <>
+    <Toaster position="top-center" richColors closeButton />
     <AppShell
       currentView={view}
       onNavigate={(nextView) => setView(nextView as View)}
@@ -47,6 +62,10 @@ function App() {
       )}
 
       {view === "upload" && <UploadOcrPage onSaved={handleSaved} />}
+
+      {view === "map-view" && <MapViewPage onOpenRecord={handleOpenRecord} />}
+
+      {view === "camera" && <CameraCapturePage onSaved={handleSaved} />}
 
       {view === "manual" && <ManualEntryPage onSaved={handleSaved} />}
 
@@ -67,6 +86,7 @@ function App() {
         </div>
       )}
     </AppShell>
+    </>
   );
 }
 

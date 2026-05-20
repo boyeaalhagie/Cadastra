@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { PenLine, ScanSearch } from "lucide-react";
+import { LandBoundaryIcon } from "../components/LandBoundaryIcon";
 import { Form8Document } from "../components/Form8Document";
-import { addRecord } from "../services/recordStorage";
+import { MapBoundaryEditor } from "../components/MapBoundaryEditor";
+import { MapBoundaryPreview } from "../components/MapBoundaryPreview";
+import { addRecord, getRecords } from "../services/recordStorage";
 import { logAction } from "../services/auditLog";
-import type { CertificateFields } from "../types/certificate";
+import type { CertificateFields, GeoJsonPolygon } from "../types/certificate";
 import { emptyCertificateFields } from "../utils/defaultCertificateFields";
 import { createRecordNumber } from "../utils/createRecordNumber";
 
@@ -34,6 +38,8 @@ const solidBtn: React.CSSProperties = {
 
 export function ManualEntryPage({ onSaved }: ManualEntryPageProps) {
   const [fields, setFields] = useState<CertificateFields>(emptyCertificateFields);
+  const [boundary, setBoundary] = useState<GeoJsonPolygon | undefined>(undefined);
+  const [showMapEditor, setShowMapEditor] = useState(false);
   const [generatingPdf, setGeneratingPdf] = useState(false);
 
   function saveManualRecord(status: "manual_draft" | "confirmed") {
@@ -48,6 +54,7 @@ export function ManualEntryPage({ onSaved }: ManualEntryPageProps) {
       status,
       ocrStatus: "not_started",
       fields,
+      boundary,
       createdAt: now,
       updatedAt: now,
     });
@@ -157,6 +164,40 @@ export function ManualEntryPage({ onSaved }: ManualEntryPageProps) {
         </div>
       </div>
 
+      {/* ── Land Boundary ── */}
+      <div
+        className="no-print"
+        style={{ border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden", marginBottom: 20 }}
+      >
+        <div style={{
+          padding: "10px 16px", borderBottom: boundary ? "1px solid #e5e7eb" : undefined,
+          display: "flex", alignItems: "center", gap: 10, background: "#fff",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, flex: 1 }}>
+            <LandBoundaryIcon size={20} color="#111" strokeWidth={1.6} />
+            <span style={{ fontWeight: 600, fontSize: 13 }}>Land Boundary</span>
+          </div>
+          <button
+            onClick={() => setShowMapEditor(true)}
+            style={{ ...boundary ? outlineBtn : solidBtn, display: "flex", alignItems: "center", gap: 5 }}
+          >
+            {boundary
+              ? <><ScanSearch size={12} strokeWidth={2} /> Edit Boundary</>
+              : <><PenLine size={12} strokeWidth={2} /> Draw Boundary</>}
+          </button>
+        </div>
+        {boundary && (
+          <MapBoundaryPreview
+            boundary={boundary}
+            height={260}
+            tooltip={[
+              fields.applicantName || null,
+              fields.landLocation || null,
+            ].filter(Boolean).join("<br/>") || "New record"}
+          />
+        )}
+      </div>
+
       {/* ── Document form ── */}
       <div
         id="form8-print-area"
@@ -177,6 +218,17 @@ export function ManualEntryPage({ onSaved }: ManualEntryPageProps) {
           <Form8Document fields={fields} onChange={setFields} />
         </div>
       </div>
+
+      {showMapEditor && (
+        <MapBoundaryEditor
+          initial={boundary}
+          existingBoundaries={getRecords()
+            .filter(r => r.boundary)
+            .map(r => ({ recordNumber: r.recordNumber, boundary: r.boundary! }))}
+          onSave={(poly) => { setBoundary(poly); setShowMapEditor(false); }}
+          onClose={() => setShowMapEditor(false)}
+        />
+      )}
     </div>
   );
 }

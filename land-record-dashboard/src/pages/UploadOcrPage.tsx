@@ -112,7 +112,6 @@ export function UploadOcrPage({ onSaved }: UploadOcrPageProps) {
       fields, rawOcrText: rawText,
       uploadedFileName: file?.name,
       uploadedFileType: file?.type,
-      uploadedFileDataUrl: fileDataUrl,
       createdAt: now, updatedAt: now,
     });
     logAction(status === "confirmed" ? "record_confirmed" : "record_updated", id, recordNumber);
