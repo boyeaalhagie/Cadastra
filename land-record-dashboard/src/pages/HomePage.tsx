@@ -36,8 +36,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
     <div
       style={{
         maxWidth: 860,
-        margin: "0 auto",
-        padding: "48px 24px",
       }}
     >
       {/* Header */}

@@ -158,7 +158,7 @@ export function CameraCapturePage({ onSaved }: Props) {
                   Scan with your phone · Same Wi-Fi
                 </p>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, width: "100%", maxWidth: 380 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, width: "100%", maxWidth: 380 }}>
                   {/* Phone Camera */}
                   <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: "14px 12px", border: "1px solid #e5e7eb", borderRadius: 10, background: "#fff" }}>
                     {cameraUrl ? (

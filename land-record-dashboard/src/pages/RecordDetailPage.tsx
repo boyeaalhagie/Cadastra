@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { PenLine, ScanSearch } from "lucide-react";
-import { LandBoundaryIcon } from "../components/LandBoundaryIcon";
 import type { CertificateRecord, GeoJsonPolygon } from "../types/certificate";
 import { Form8Document } from "../components/Form8Document";
 import { MapBoundaryEditor } from "../components/MapBoundaryEditor";
@@ -215,18 +213,12 @@ export function RecordDetailPage({ record, onSaved, onBack }: RecordDetailPagePr
           display: "flex", alignItems: "center", gap: 10,
           background: "#fff",
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, flex: 1 }}>
-            {/* Land parcel polygon icon */}
-            <LandBoundaryIcon size={20} color="#111" strokeWidth={1.6} />
-            <span style={{ fontWeight: 600, fontSize: 13 }}>Land Boundary</span>
-          </div>
+          <span style={{ fontWeight: 600, fontSize: 13, flex: 1 }}>Land Boundary</span>
           <button
             onClick={() => setShowMapEditor(true)}
-            style={{ ...boundary ? outlineBtn : solidBtn, display: "flex", alignItems: "center", gap: 5 }}
+            style={boundary ? outlineBtn : solidBtn}
           >
-            {boundary
-              ? <><ScanSearch size={12} strokeWidth={2} /> Edit Boundary</>
-              : <><PenLine size={12} strokeWidth={2} /> Draw Boundary</>}
+            {boundary ? "Edit Boundary" : "Draw Boundary"}
           </button>
         </div>
         {boundary && (
