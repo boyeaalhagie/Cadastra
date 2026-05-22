@@ -13,10 +13,10 @@ export function CertificateForm({ fields, onChange, readOnly = false }: Certific
   }
 
   const inputClass =
-    "w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black disabled:bg-gray-50 disabled:text-gray-500";
+    "w-full rounded-lg border border-neutral-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black disabled:bg-neutral-50 disabled:text-neutral-500";
 
   const labelClass =
-    "mb-1 block text-xs font-medium uppercase tracking-wide text-gray-500";
+    "mb-1 block text-xs font-medium uppercase tracking-wide text-neutral-500";
 
   return (
     <div className="space-y-8">

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { PenLine } from "lucide-react";
 import { Form8Document } from "../components/Form8Document";
 import { MapBoundaryEditor } from "../components/MapBoundaryEditor";
 import { MapBoundaryPreview } from "../components/MapBoundaryPreview";
@@ -17,7 +18,7 @@ const outlineBtn: React.CSSProperties = {
   border: "1px solid #d1d5db",
   borderRadius: 8,
   padding: "7px 14px",
-  fontSize: 13,
+  fontSize: 11,
   fontWeight: 500,
   background: "#fff",
   cursor: "pointer",
@@ -27,7 +28,7 @@ const outlineBtn: React.CSSProperties = {
 const solidBtn: React.CSSProperties = {
   borderRadius: 8,
   padding: "7px 16px",
-  fontSize: 13,
+  fontSize: 11,
   fontWeight: 500,
   background: "#000",
   color: "#fff",
@@ -91,26 +92,24 @@ export function ManualEntryPage({ onSaved }: ManualEntryPageProps) {
       {/* ── Toolbar + Land Boundary on same row ── */}
       <div
         className="no-print"
-        style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}
+        style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap", width: "100%" }}
       >
         {/* Land Boundary */}
         <div style={{
           display: "flex", alignItems: "center", gap: 8,
           border: "1px solid #e5e7eb", borderRadius: 8,
-          padding: "7px 12px", background: "#fff",
+          padding: "7px", background: "#fff",
         }}>
           <LandBoundaryIcon size={18} color="#111" strokeWidth={1.6} />
-          <span style={{ fontWeight: 600, fontSize: 13 }}>Land Boundary</span>
-          <button onClick={() => setShowMapEditor(true)} style={{ ...(boundary ? outlineBtn : solidBtn), padding: "5px 12px", fontSize: 12 }}>
+          <span style={{ fontWeight: 600, fontSize: 12 }}>Land Boundary</span>
+          <button onClick={() => setShowMapEditor(true)} style={{ ...(boundary ? outlineBtn : solidBtn), padding: "5px 12px", fontSize: 11, marginLeft: 30, display: "flex", alignItems: "center", gap: 5 }}>
+            <PenLine size={11} strokeWidth={2} />
             {boundary ? "Edit Boundary" : "Draw Boundary"}
           </button>
         </div>
 
-        {/* Divider */}
-        <div style={{ width: 1, height: 28, background: "#e5e7eb", flexShrink: 0 }} />
-
         {/* Action buttons */}
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginLeft: "auto" }}>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", fontSize: 11 }}>
           <button onClick={() => setFields(emptyCertificateFields)} style={outlineBtn}>Clear Form</button>
           <button onClick={() => window.print()} style={outlineBtn}>Print</button>
           <button onClick={handleDownloadPdf} disabled={generatingPdf} style={{ ...outlineBtn, opacity: generatingPdf ? 0.6 : 1 }}>
@@ -140,7 +139,7 @@ export function ManualEntryPage({ onSaved }: ManualEntryPageProps) {
       {/* ── Document form ── */}
       <div
         id="form8-print-area"
-        style={{ background: "#f3f4f6", padding: "24px 0", borderRadius: 12, border: "1px solid #e5e7eb" }}
+        style={{ background: "#f3f4f6", padding: "24px", borderRadius: 12, border: "1px solid #e5e7eb" }}
       >
         <div style={{ maxWidth: 1100, margin: "0 auto", boxShadow: "0 2px 16px rgba(0,0,0,0.10)" }}>
           <Form8Document fields={fields} onChange={setFields} />

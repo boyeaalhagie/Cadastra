@@ -47,6 +47,6 @@ function photoRelayPlugin(): Plugin {
 export default defineConfig({
   plugins: [react(), tailwindcss(), photoRelayPlugin()],
   server: {
-    host: true, // listen on all interfaces so the phone can reach it over Wi-Fi
+    host: true,
   },
 })

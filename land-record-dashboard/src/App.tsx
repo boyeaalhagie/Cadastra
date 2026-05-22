@@ -8,11 +8,14 @@ import { CameraCapturePage } from "./pages/CameraCapturePage";
 import { MapViewPage } from "./pages/MapViewPage";
 import { ManualEntryPage } from "./pages/ManualEntryPage";
 import { RecordDetailPage } from "./pages/RecordDetailPage";
+import { SearchPage } from "./pages/SearchPage";
+import { ExportPage } from "./pages/ExportPage";
+import { SettingsPage } from "./pages/SettingsPage";
 import { PhoneCameraPage } from "./pages/PhoneCameraPage";
 import type { CertificateRecord } from "./types/certificate";
 import { getRecords } from "./services/recordStorage";
 
-type View = "home" | "dashboard" | "map-view" | "upload" | "camera" | "manual" | "detail";
+type View = "home" | "dashboard" | "search" | "map-view" | "upload" | "camera" | "manual" | "detail" | "export" | "settings";
 
 // If the URL contains ?phone=1, render the phone camera interface (no HTTPS or PeerJS needed)
 const phonecamId = ["camera", "gallery"].includes(
@@ -61,6 +64,10 @@ function App() {
         <DashboardPage records={records} onOpenRecord={handleOpenRecord} />
       )}
 
+      {view === "search"    && <SearchPage records={records} onOpenRecord={handleOpenRecord} />}
+{view === "export"    && <ExportPage />}
+      {view === "settings"  && <SettingsPage />}
+
       {view === "upload" && <UploadOcrPage onSaved={handleSaved} />}
 
       {view === "map-view" && <MapViewPage onOpenRecord={handleOpenRecord} />}
@@ -78,7 +85,7 @@ function App() {
       )}
 
       {view === "detail" && !selectedRecord && (
-        <div className="p-6 text-gray-500 text-sm">
+        <div className="p-6 text-neutral-500 text-sm">
           Record not found.{" "}
           <button onClick={() => setView("dashboard")} className="underline hover:text-black">
             Back to dashboard
